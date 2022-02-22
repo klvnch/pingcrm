@@ -18,11 +18,13 @@
           <text-input v-model="form.city" :error="form.errors.city" class="pb-8 pr-6 w-full lg:w-1/2" label="City" />
           <text-input v-model="form.region" :error="form.errors.region" class="pb-8 pr-6 w-full lg:w-1/2" label="Province/State" />
           <select-input v-model="form.country" :error="form.errors.country" class="pb-8 pr-6 w-full lg:w-1/2" label="Country">
-            <option :value="null" />
             <option value="CA">Canada</option>
             <option value="US">United States</option>
           </select-input>
           <text-input v-model="form.postal_code" :error="form.errors.postal_code" class="pb-8 pr-6 w-full lg:w-1/2" label="Postal code" />
+          <select-input v-model="form.contact_id" :error="form.errors.contact_id" class="pb-8 pr-6 w-full lg:w-1/2" label="Contacts">
+            <option v-for="contact in contacts" :key="contact.id" :value="contact.id">{{ contact.first_name + " " + contact.last_name }}</option>
+          </select-input>
         </div>
         <div class="flex items-center px-8 py-4 bg-gray-50 border-t border-gray-100">
           <button v-if="!customer.deleted_at" class="text-red-600 hover:underline" tabindex="-1" type="button" @click="destroy">Delete Customer</button>
@@ -53,11 +55,13 @@ export default {
   layout: Layout,
   props: {
     customer: Object,
+    contacts: Array,
   },
   remember: 'form',
   data() {
     return {
       form: this.$inertia.form({
+        contact_id: this.customer.contact_id,
         first_name: this.customer.first_name,
         last_name: this.customer.last_name,
         email: this.customer.email,

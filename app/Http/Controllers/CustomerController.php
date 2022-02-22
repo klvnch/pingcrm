@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -23,6 +24,7 @@ class CustomerController extends Controller
         return Inertia::render('Customers/Edit', [
             'customer' => [
                 'id' => $customer->id,
+                'contact_id' => $customer->contact_id,
                 'first_name' => $customer->first_name,
                 'last_name' => $customer->last_name,
                 'email' => $customer->email,
@@ -33,13 +35,22 @@ class CustomerController extends Controller
                 'country' => $customer->country,
                 'postal_code' => $customer->postal_code,
                 'deleted_at' => $customer->deleted_at,
-            ]
+            ],
+            'contacts' => Auth::user()->account->contacts()
+                ->get()
+                ->map
+                ->only('id', 'first_name', 'last_name'),
         ]);
     }
 
     public function update(Customer $customer){
         $customer->update(
             Request::validate([
+                'contact_id' => [
+                    'nullable',
+                    Rule::exists('contacts', 'id')->where(function ($query) {
+                        $query->where('account_id', Auth::user()->account_id);
+                })],
                 'first_name' => ['required', 'max:50'],
                 'last_name' => ['required', 'max:50'],
                 'email' => ['nullable', 'max:50', 'email'],
@@ -70,12 +81,22 @@ class CustomerController extends Controller
     }
 
     public function create(){
-        return Inertia::render('Customers/Create');
+        return Inertia::render('Customers/Create', [
+            'contacts' => Auth::user()->account->contacts()
+                ->get()
+                ->map
+                ->only('id', 'first_name', 'last_name')
+        ]);
     }
 
     public function store(){
         Auth::user()->account->customer()->create(
             Request::validate([
+                'contact_id' => [
+                    'nullable',
+                    Rule::exists('contacts', 'id')->where(function ($query) {
+                        $query->where('account_id', Auth::user()->account_id);
+                })],
                 'first_name' => ['required', 'max:50'],
                 'last_name' => ['required', 'max:50'],
                 'email' => ['nullable', 'max:50', 'email'],
