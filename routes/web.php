@@ -163,3 +163,11 @@ Route::delete('/customers/{customer}', [CustomerController::class, 'destroy'])
 Route::put('/customers/{customer}/restore', [CustomerController::class, 'restore'])
     ->name('customers.restore')
     ->middleware('auth');
+
+Route::get('/customers/create', [CustomerController::class, 'create'])
+    ->name('customers.create')
+    ->middleware('auth');
+
+Route::post('/createCustomer', [CustomerController::class, 'store'])
+    ->name('customers.store')
+    ->middleware('auth');

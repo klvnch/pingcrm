@@ -68,4 +68,26 @@ class CustomerController extends Controller
 
         return Redirect::back()->with('success', 'Customer restored.');
     }
+
+    public function create(){
+        return Inertia::render('Customers/Create');
+    }
+
+    public function store(){
+        Auth::user()->account->customer()->create(
+            Request::validate([
+                'first_name' => ['required', 'max:50'],
+                'last_name' => ['required', 'max:50'],
+                'email' => ['nullable', 'max:50', 'email'],
+                'phone' => ['nullable', 'max:50'],
+                'address' => ['nullable', 'max:150'],
+                'city' => ['nullable', 'max:50'],
+                'region' => ['nullable', 'max:50'],
+                'country' => ['nullable', 'max:2'],
+                'postal_code' => ['nullable', 'max:25'],
+            ])
+        );
+
+        return Redirect::route('customers')->with('success', 'Customer created. ');
+    }
 }
