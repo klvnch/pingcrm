@@ -88,6 +88,11 @@ class ContactsController extends Controller
                 ->get()
                 ->map
                 ->only('id', 'name'),
+            'customers' => Auth::user()->account->customer()
+                ->where('contact_id', $contact->id)
+                ->get()
+                ->map
+                ->only('id', 'first_name', 'last_name', 'city', 'email', 'phone', 'deleted_at'),
         ]);
     }
 
