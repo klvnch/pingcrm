@@ -147,3 +147,11 @@ Route::get('/img/{path}', [ImagesController::class, 'show'])
 Route::get('/customers', [CustomerController::class, 'index'])
     ->name('customers')
     ->middleware('auth');
+
+Route::get('/customers/{customer}/edit', [CustomerController::class, 'edit'])
+    ->name('customers.edit')
+    ->middleware('auth');
+
+Route::put('/customers/{customer}', [CustomerController::class, 'update'])
+    ->name('customers.update')
+    ->middleware('auth');
