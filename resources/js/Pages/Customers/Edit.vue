@@ -75,12 +75,12 @@ export default {
       this.form.put(`/customers/${this.customer.id}`)
     },
     destroy() {
-      if (confirm('Are you sure you want to delete this contact?')) {
+      if (confirm('Are you sure you want to delete this customer?')) {
         this.$inertia.delete(`/customers/${this.customer.id}`)
       }
     },
     restore() {
-      if (confirm('Are you sure you want to restore this contact?')) {
+      if (confirm('Are you sure you want to restore this customer?')) {
         this.$inertia.put(`/customers/${this.customer.id}/restore`)
       }
     },

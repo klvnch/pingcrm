@@ -155,3 +155,11 @@ Route::get('/customers/{customer}/edit', [CustomerController::class, 'edit'])
 Route::put('/customers/{customer}', [CustomerController::class, 'update'])
     ->name('customers.update')
     ->middleware('auth');
+
+Route::delete('/customers/{customer}', [CustomerController::class, 'destroy'])
+    ->name('customers.destroy')
+    ->middleware('auth');
+
+Route::put('/customers/{customer}/restore', [CustomerController::class, 'restore'])
+    ->name('customers.restore')
+    ->middleware('auth');

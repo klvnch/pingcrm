@@ -55,17 +55,17 @@ class CustomerController extends Controller
         return Redirect::back()->with('success', 'Customer updated.');
     }
 
-    public function destroy(Contact $contact)
+    public function destroy(Customer $customer)
     {
-        $contact->delete();
+        $customer->delete();
 
-        return Redirect::back()->with('success', 'Contact deleted.');
+        return Redirect::back()->with('success', 'Customer deleted.');
     }
 
-    public function restore(Contact $contact)
+    public function restore(Customer $customer)
     {
-        $contact->restore();
+        $customer->restore();
 
-        return Redirect::back()->with('success', 'Contact restored.');
+        return Redirect::back()->with('success', 'Customer restored.');
     }
 }
