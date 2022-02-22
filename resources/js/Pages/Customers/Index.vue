@@ -1,8 +1,8 @@
 <template>
   <div>
     <Head title="Customers" />
-    <h1 class="mb-8 text-3xl font-bold">Customers</h1>
-    <div class="flex items-center justify-end mb-6">
+    <div class="flex items-center justify-between mb-6">
+      <h1 class="mb-8 text-3xl font-bold">Customers</h1>
       <Link class="btn-indigo" href="/customers/create">
         <span>Create</span>
         <span class="hidden md:inline">&nbsp;Customer</span>
