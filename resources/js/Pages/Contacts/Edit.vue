@@ -53,12 +53,12 @@
             </td>
             <td class="border-t">
               <Link class="flex items-center px-6 py-4" :href="`/customers/${customer.id}/edit`" tabindex="-1">
-                {{ customer.email }}
+                {{ customer.city }}
               </Link>
             </td>
             <td class="border-t">
               <Link class="flex items-center px-6 py-4" :href="`/customers/${customer.id}/edit`" tabindex="-1">
-                {{ customer.city }}
+                {{ customer.email }}
               </Link>
             </td>
             <td class="border-t">
