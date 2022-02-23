@@ -14,8 +14,10 @@ class CustomerController extends Controller
     //
     public function index(){
         return Inertia::render('Customers/Index', [
+            'filters' => Request::all('search', 'trashed'),
             'customers' => Auth::user()->account
                 ->customer()
+                ->filter(Request::only('search', 'trashed'))
                 ->paginate(10)
         ]);
     }

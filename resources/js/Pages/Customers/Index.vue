@@ -1,8 +1,15 @@
 <template>
   <div>
     <Head title="Customers" />
+    <h1 class="mb-8 text-3xl font-bold">Customers</h1>
     <div class="flex items-center justify-between mb-6">
-      <h1 class="mb-8 text-3xl font-bold">Customers</h1>
+      <search-filter v-model="form.search" class="mr-4 w-full max-w-md" @reset="reset">
+        <label class="block text-gray-700">Trashed:</label>
+        <select v-model="form.trashed" class="form-select mt-1 w-full">
+          <option value="with">With Trashed</option>
+          <option value="only">Only Trashed</option>
+        </select>
+      </search-filter>
       <Link class="btn-indigo" href="/customers/create">
         <span>Create</span>
         <span class="hidden md:inline">&nbsp;Customer</span>
@@ -25,12 +32,12 @@
           </td>
           <td class="border-t">
             <Link class="flex items-center px-6 py-4" :href="`/customers/${customer.id}/edit`" tabindex="-1">
-              {{ customer.email }}
+              {{ customer.city }}
             </Link>
           </td>
           <td class="border-t">
             <Link class="flex items-center px-6 py-4" :href="`/customers/${customer.id}/edit`" tabindex="-1">
-              {{ customer.city }}
+              {{ customer.email }}
             </Link>
           </td>
           <td class="border-t">
@@ -60,6 +67,8 @@ import pickBy from 'lodash/pickBy'
 import Layout from '@/Shared/Layout'
 import throttle from 'lodash/throttle'
 import Pagination from '@/Shared/Pagination'
+import SearchFilter from '@/Shared/SearchFilter'
+import mapValues from 'lodash/mapValues'
 
 export default {
   components: {
@@ -67,10 +76,20 @@ export default {
     Icon,
     Link,
     Pagination,
+    SearchFilter,
   },
   layout: Layout,
   props: {
+    filters: Object,
     customers: Object,
+  },
+  data() {
+    return {
+      form: {
+        search: this.filters.search,
+        trashed: this.filters.trashed,
+      },
+    }
   },
   watch: {
     form: {
@@ -78,6 +97,11 @@ export default {
       handler: throttle(function () {
         this.$inertia.get('/customers', pickBy(this.form), { preserveState: true })
       }, 150),
+    },
+  },
+  methods: {
+    reset() {
+      this.form = mapValues(this.form, () => null)
     },
   },
 }
