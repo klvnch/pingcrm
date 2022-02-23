@@ -34,6 +34,50 @@
         </div>
       </form>
     </div>
+    <div class="mt-11">
+      <span class="text-3xl font-bold">List Customers</span>
+      <div class="bg-white rounded-md shadow overflow-x-auto mt-5">
+        <table class="w-full whitespace-nowrap">
+          <tr class="text-left font-bold">
+            <th class="pb-4 pt-6 px-6">Name</th>
+            <th class="pb-4 pt-6 px-6">City</th>
+            <th class="pb-4 pt-6 px-6">Email</th>
+            <th class="pb-4 pt-6 px-6" colspan="2">Phone</th>
+          </tr>
+          <tr v-for="customer in customers" :key="customer.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
+            <td class="border-t">
+              <Link class="flex items-center px-6 py-4 focus:text-indigo-500" :href="`/customers/${customer.id}/edit`">
+                {{ customer.first_name + " " +customer.last_name }}
+                <icon v-if="customer.deleted_at" name="trash" class="flex-shrink-0 ml-2 w-3 h-3 fill-gray-400" />
+              </Link>
+            </td>
+            <td class="border-t">
+              <Link class="flex items-center px-6 py-4" :href="`/customers/${customer.id}/edit`" tabindex="-1">
+                {{ customer.city }}
+              </Link>
+            </td>
+            <td class="border-t">
+              <Link class="flex items-center px-6 py-4" :href="`/customers/${customer.id}/edit`" tabindex="-1">
+                {{ customer.email }}
+              </Link>
+            </td>
+            <td class="border-t">
+              <Link class="flex items-center px-6 py-4" :href="`/customers/${customer.id}/edit`" tabindex="-1">
+                {{ customer.phone }}
+              </Link>
+            </td>
+            <td class="w-px border-t">
+              <Link class="flex items-center px-4" :href="`/customers/${customer.id}/edit`" tabindex="-1">
+                <icon name="cheveron-right" class="block w-6 h-6 fill-gray-400" />
+              </Link>
+            </td>
+          </tr>
+          <tr v-if="customers.length === 0">
+            <td class="px-6 py-4 border-t" colspan="4">No Customer found.</td>
+          </tr>
+        </table>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -58,6 +102,7 @@ export default {
   props: {
     contact: Object,
     organizations: Array,
+    customers: Array,
   },
   remember: 'form',
   data() {

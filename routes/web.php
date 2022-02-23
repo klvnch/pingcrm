@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ContactsController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\OrganizationsController;
@@ -140,3 +141,33 @@ Route::get('reports', [ReportsController::class, 'index'])
 Route::get('/img/{path}', [ImagesController::class, 'show'])
     ->where('path', '.*')
     ->name('image');
+
+// Customers
+
+Route::get('/customers', [CustomerController::class, 'index'])
+    ->name('customers')
+    ->middleware('auth');
+
+Route::get('/customers/{customer}/edit', [CustomerController::class, 'edit'])
+    ->name('customers.edit')
+    ->middleware('auth');
+
+Route::put('/customers/{customer}', [CustomerController::class, 'update'])
+    ->name('customers.update')
+    ->middleware('auth');
+
+Route::delete('/customers/{customer}', [CustomerController::class, 'destroy'])
+    ->name('customers.destroy')
+    ->middleware('auth');
+
+Route::put('/customers/{customer}/restore', [CustomerController::class, 'restore'])
+    ->name('customers.restore')
+    ->middleware('auth');
+
+Route::get('/customers/create', [CustomerController::class, 'create'])
+    ->name('customers.create')
+    ->middleware('auth');
+
+Route::post('/createCustomer', [CustomerController::class, 'store'])
+    ->name('customers.store')
+    ->middleware('auth');
