@@ -12,7 +12,8 @@ use Inertia\Inertia;
 class CustomerController extends Controller
 {
     //
-    public function index(){
+    public function index()
+    {
         return Inertia::render('Customers/Index', [
             'filters' => Request::all('search', 'trashed'),
             'customers' => Auth::user()->account
@@ -22,7 +23,8 @@ class CustomerController extends Controller
         ]);
     }
 
-    public function edit(Customer $customer){
+    public function edit(Customer $customer)
+    {
         return Inertia::render('Customers/Edit', [
             'customer' => [
                 'id' => $customer->id,
@@ -45,14 +47,16 @@ class CustomerController extends Controller
         ]);
     }
 
-    public function update(Customer $customer){
+    public function update(Customer $customer)
+    {
         $customer->update(
             Request::validate([
                 'contact_id' => [
                     'nullable',
                     Rule::exists('contacts', 'id')->where(function ($query) {
                         $query->where('account_id', Auth::user()->account_id);
-                })],
+                    })
+                ],
                 'first_name' => ['required', 'max:50'],
                 'last_name' => ['required', 'max:50'],
                 'email' => ['nullable', 'max:50', 'email'],
@@ -82,7 +86,8 @@ class CustomerController extends Controller
         return Redirect::back()->with('success', 'Customer restored.');
     }
 
-    public function create(){
+    public function create()
+    {
         return Inertia::render('Customers/Create', [
             'contacts' => Auth::user()->account->contacts()
                 ->get()
@@ -91,14 +96,16 @@ class CustomerController extends Controller
         ]);
     }
 
-    public function store(){
+    public function store()
+    {
         Auth::user()->account->customer()->create(
             Request::validate([
                 'contact_id' => [
                     'nullable',
                     Rule::exists('contacts', 'id')->where(function ($query) {
                         $query->where('account_id', Auth::user()->account_id);
-                })],
+                    })
+                ],
                 'first_name' => ['required', 'max:50'],
                 'last_name' => ['required', 'max:50'],
                 'email' => ['nullable', 'max:50', 'email'],
